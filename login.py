@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import messagebox
 import mysql.connector
+import subprocess  # Importar el módulo subprocess
 
 def verificar_credenciales(usuario, contraseña):
     try:
@@ -19,6 +20,8 @@ def verificar_credenciales(usuario, contraseña):
 
         if resultado:
             messagebox.showinfo("Inicio de sesión exitoso", "¡Bienvenido!")
+            root.destroy()  # Cerrar la ventana actual de inicio de sesión
+            subprocess.run(["python", "menu.py"])  # Abrir la página de menú
         else:
             messagebox.showerror("Error de inicio de sesión", "Credenciales incorrectas")
     except mysql.connector.Error as error:
