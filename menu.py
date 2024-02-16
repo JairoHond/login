@@ -1,19 +1,61 @@
+import sys
 import tkinter as tk
+import subprocess
 
-def mostrar_mensaje():
-    label_saludo.config(text="¡Hola, Mundo!")
+def abrir_prestamos():
+    root.destroy()
+    subprocess.Popen(["python", "prestamo.py", str(cliente_id), id_label.cget("text").split(":")[1].strip()])
 
-# Crear la ventana principal
+def abrir_pagos():
+    root.destroy()
+    subprocess.Popen(["python", "pagos.py"])
+
+def abrir_reversiones():
+    root.destroy()
+    subprocess.Popen(["python", "reversion.py"])
+
+def abrir_chat():
+    root.destroy()
+    subprocess.Popen(["python", "chat.py"])
+
 root = tk.Tk()
-root.title("Interfaz de Hola Mundo")
+root.title("Interfaz Principal")
 
-# Crear un widget de etiqueta para mostrar el mensaje
-label_saludo = tk.Label(root, text="", font=("Arial", 24))
-label_saludo.pack(padx=20, pady=20)  # Agregar padding
+screen_width = root.winfo_screenwidth()
+screen_height = root.winfo_screenheight()
+window_width = screen_width // 2
+window_height = screen_height // 2
+x_position = (screen_width - window_width) // 2
+y_position = (screen_height - window_height) // 2
+root.geometry(f"{window_width}x{window_height}+{x_position}+{y_position}")
 
-# Crear un botón para activar la función mostrar_mensaje
-boton_mostrar = tk.Button(root, text="Mostrar Saludo", command=mostrar_mensaje)
-boton_mostrar.pack(pady=10)
+background_color = "#7FFF00"
+root.configure(bg=background_color)
 
-# Ejecutar el bucle principal de la aplicación
+titulo_label = tk.Label(root, text="Menú Principal", font=("Arial Black", 28), bg=background_color)
+titulo_label.pack(pady=20)
+
+button_font = ("Arial Black", 16)
+button_width = 20
+button_height = 2
+button_relief_style = "groove"
+button_bg_color = "#007bff"
+
+boton_prestamos = tk.Button(root, text="Préstamos", font=button_font, width=button_width, height=button_height, relief=button_relief_style, bg=button_bg_color, command=abrir_prestamos)
+boton_prestamos.pack(pady=5)
+
+boton_pagos = tk.Button(root, text="Pagos", font=button_font, width=button_width, height=button_height, relief=button_relief_style, bg=button_bg_color, command=abrir_pagos)
+boton_pagos.pack(pady=5)
+
+boton_reversiones = tk.Button(root, text="Reversiones", font=button_font, width=button_width, height=button_height, relief=button_relief_style, bg=button_bg_color, command=abrir_reversiones)
+boton_reversiones.pack(pady=5)
+
+boton_chat = tk.Button(root, text="Chat", font=button_font, width=button_width, height=button_height, relief=button_relief_style, bg=button_bg_color, command=abrir_chat)
+boton_chat.pack(pady=5)
+
+cliente_id = sys.argv[1] if len(sys.argv) > 1 else None  # Obtener el ID del cliente de los argumentos de la línea de comandos
+
+id_label = tk.Label(root, text=f"Cliente: {cliente_id}", font=("Arial Black", 12), bg=background_color)
+id_label.pack(pady=10)
+
 root.mainloop()
